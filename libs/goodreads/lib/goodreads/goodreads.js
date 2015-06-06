@@ -3,7 +3,6 @@
   /* API Docs: http://www.goodreads.com/api */  var Goodreads, http, oauth, sys, xml2js;
   http = require('http');
   xml2js = require('xml2js');
-  oauth = (require('oauth')).OAuth;
   util = require('util');
   querystring = require('querystring');
   Goodreads = (function() {

@@ -17,7 +17,6 @@
     "xml2js": "^0.4.9"
   },
   "devDependencies": {
-    "oauth": "^0.9.13",
     "superagent": "^0.21.0"
   }
 }
