@@ -4,7 +4,7 @@ var request = require('superagent');
 var assert = require("assert");
 
 var SERVER = 'http://localhost:3666/books';
-//SERVER = 'https://jop-culture.herokuapp.com/books';
+SERVER = 'https://jop-culture.herokuapp.com/books';
 
 describe('Goodreads books api', function(){
   this.timeout(5000);    
