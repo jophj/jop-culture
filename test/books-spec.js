@@ -26,7 +26,7 @@ describe('Goodreads books api', function(){
     })
   });
 
-  it('should get array of saved albums', function(done){
+  it('should get array of saved books', function(done){
     request.get(SERVER + '/saved', function(res){
       var albumsObj = JSON.parse(res.text);
       assert.ok(albumsObj.items.length > 0);
@@ -35,7 +35,7 @@ describe('Goodreads books api', function(){
     });
   });
 
-  it('should receive some more saved albums', function(done){
+  it('should receive some more saved books', function(done){
     var offset = 30;
     request
       .get(SERVER + '/saved')
@@ -50,7 +50,7 @@ describe('Goodreads books api', function(){
       });
   });
 
-  it('should receive exactly 2 albums', function(done){
+  it('should receive exactly 2 books', function(done){
     request
       .get(SERVER + '/saved')
       .query({"limit": 2, "offset": 30})
@@ -61,7 +61,7 @@ describe('Goodreads books api', function(){
       });
   });
   
-  it('should skip the first album when offset is 1', function(done){
+  it('should skip the first book when offset is 1', function(done){
 
     var requestA = function(callbackB){
       return request

@@ -18,14 +18,82 @@ else{
 
 var goodreadsApi = new goodreads.client(apiKeys);
 
-goodreadsApi.getSingleShelf({userID:18865013, shelf:'read'},
-  function (response) {
-    if(response)
-      console.log(response);
-  }
-);
+var parseShelfResponse = function(json){
+    
+    var parseBook = function(book) {
+      var title = book.title[0];
+      
+      var imageUrl = book.large_image_url[0];
+      if (imageUrl === '')
+        imageUrl = book.image_url[0];
+      
+      var artists = [];
+      for (var j = 0; j < book.authors.length; j++) {
+        var author = book.authors[j].author[0];
+        artists.push(author.name[0]);
+      }
+      
+      return {
+        title: title,
+        artist: artists.join(', '),
+        imageUrl: imageUrl
+      };
+    };
+    
+    var parsedItems = [];
+    // check if request offset is higher than books saved
+    if (json.GoodreadsResponse.books[0].book){
+      var books = json.GoodreadsResponse.books[0].book;
+      for (var i = 0; i < books.length; i++) {
+        var bookToParse = books[i];
+        var book = parseBook(bookToParse);
+        parsedItems.push(book);
+      }
+    }
+    return parsedItems;
+  };
+  
+router.get('/', function(req, res){
+  res.send('up and running');
+});
 
+router.get('/isAuthenticated', function(req, res){
+  res.send(' Jop ');
+});
 
+router.get('/saved', function(req, res){
+  var offset = 0;
+  if (req.query.offset > 0)
+    offset = parseInt(req.query.offset);
+
+  var limit = Number.MAX_VALUE;
+  if (req.query.limit > 0)
+    limit = parseInt(req.query.limit);
+
+  goodreadsApi.getSingleShelf({
+    userID: 18865013,
+    shelf: 'read',
+    page: Math.floor(offset/limit) + 1,
+    per_page: limit + offset % limit,
+    },
+    function (response) {
+      if(response){
+        var reallyParsedJson = parseShelfResponse(response);
+        var items = reallyParsedJson.slice(reallyParsedJson.length - limit, reallyParsedJson.length);        
+        
+        var booksObj = {
+          offset: offset + items.length,
+          items: items
+        };
+        
+        res.send(booksObj);
+      }
+       else{
+        res.status(500).send(err);
+       }
+    }
+  );
+});
 
 
 
