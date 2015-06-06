@@ -1,7 +1,7 @@
 var express       = require('express');
 var SpotifyWebApi = require('spotify-web-api-node');
 var EventEmitter  = require('events').EventEmitter;
-var goodreads     = require('goodreads'); 
+var goodreads     = require('./libs/goodreads/index.js'); 
 
 var eventEmitter = new EventEmitter();
 var router = express.Router();
@@ -18,9 +18,12 @@ else{
 
 var goodreadsApi = new goodreads.client(apiKeys);
 
-
-
-
+goodreadsApi.getSingleShelf({userID:18865013, shelf:'read'},
+  function (response) {
+    if(response)
+      console.log(response);
+  }
+);
 
 
 
