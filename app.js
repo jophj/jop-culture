@@ -2,6 +2,7 @@ var express = require('express');
 var music   = require('./music-spotify');
 var movies  = require('./movies-rottentomatoes');
 var books   = require('./books-goodreads');
+var games   = require('./games-steam');
 var app = express();
 
 app.set('port', (process.env.PORT || 3666));
