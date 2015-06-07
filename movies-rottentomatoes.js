@@ -123,7 +123,7 @@ var movieListBuilder = function(auth_token){
   };
   
   return builder;
-}
+};
 
 
 router.get('/saved', function(req, res){
