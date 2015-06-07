@@ -17,6 +17,8 @@ else{
 
 var jopSteamID = '76561198017403191';
 var player = new SteamApi.Player(steamApiKey);
+// that's the awesome db from wich games are retrieved
+var gameItems = [];
 
 router.use(function(err, req, res, next){
   console.error(err.stack);
@@ -47,7 +49,24 @@ var GamesFetcher = function () {
 var GamesParser = function () {
   return{
     parseAndOrder: function (steamGames) {
-      return [];
+      if (!steamGames) return null;
+      
+      // descending order
+      steamGames.sort(function (g1, g2) {
+        return g2.playtimeForever - g1.playtimeForever;
+      });
+      
+      var gameItems = [];
+      for (var i = 0; i < steamGames.length; i++) {
+        var steamGame = steamGames[i];
+        
+        gameItems.push({
+          title: steamGame.name,
+          imageUrl: steamGame.logo,
+          artist: null
+        });
+      }
+      return gameItems;
     }
   };
 };
@@ -55,6 +74,7 @@ var GamesParser = function () {
 GamesFetcher().fetchGames(function (result) {
   var gameItems = GamesParser().parseAndOrder(result);
   console.log(gameItems);
+  
 });
 
 
