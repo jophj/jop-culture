@@ -101,14 +101,10 @@ router.get('/saved', function(req, res){
 
   var gameItems = gameItemsDB.slice(offset, offset + limit);
   
-  console.log(offset, limit, gameItems.length);
   res.send({
     offset: offset+gameItems.length,
     items: gameItems
   });
 });
-
-
-
 
 module.exports = router;
