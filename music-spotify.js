@@ -56,7 +56,7 @@ var refreshAccessToken = function(goodCallback, badCallback){
   spotifyApi.refreshAccessToken()
     .then(function(tokens){
 
-      console.log('Authentication refreshed');
+      console.log('[Spotify] Authentication refreshed');
       storeAuthData(tokens);
       spotifyApi.setAccessToken(tokens['access_token']);
 
@@ -65,7 +65,7 @@ var refreshAccessToken = function(goodCallback, badCallback){
       delay = delay < 0 ? 0 : delay;
 
       setTimeout(refreshAccessToken, delay);
-      console.log('Authentication scheduled in ', delay/1000, ' seconds')
+      console.log('[Spotify] Authentication scheduled in', delay/1000, 'seconds')
 
       goodCallback(data);
     }, function(err){

@@ -31,7 +31,7 @@ router.get('/', function(req, res){
 
 router.get('/isAuthenticated', function(req, res){
   if (player) res.send(' Jop');
-  else res.err(500);
+  else res.status(500);
 });
 
 
@@ -71,14 +71,23 @@ var GamesParser = function () {
   };
 };
 
-GamesFetcher().fetchGames(function (result) {
+var fetchGames = function(){
+  GamesFetcher().fetchGames(fetchGamesCallback);
+};
+
+var fetchGamesCallback = function (result) {
   var gameItems = GamesParser().parseAndOrder(result);
   if (gameItems!= null && gameItemsDB.length <= gameItems.length){
-    gameItemsDB = gameItems;    
+    gameItemsDB = gameItems;
     console.log('[Steam] Games fetched:', gameItemsDB.length);
-    //TODO reschedue game fetch
   }
-});
+  var delay = 86400000;   //fetch gaems erryday
+  setTimeout(fetchGames, delay);
+  console.log('[Steam] Fetching games scheduled in:', delay / 1000, 'seconds');
+};
+
+fetchGames();
+
 
 router.get('/saved', function(req, res){
 
