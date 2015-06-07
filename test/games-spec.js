@@ -4,7 +4,7 @@ var request = require('superagent');
 var assert = require("assert");
 
 var SERVER = 'http://localhost:3666/games';
-//SERVER = 'https://jop-culture.herokuapp.com/gamese';
+//SERVER = 'https://jop-culture.herokuapp.com/games';
 
 describe('Steam games api', function(){
   this.timeout(5000);    

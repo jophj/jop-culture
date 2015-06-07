@@ -15,18 +15,21 @@ else{
   steamApiKey = require('./steamApiKey');
 }
 
+var jopSteamID = '76561198017403191';
 var player = new SteamApi.Player(steamApiKey);
 
+router.use(function(err, req, res, next){
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
 
-var callback = function(result){
-    console.log('steam test');
-    console.log(result);
-  };
-  
-console.log('steam test');
-console.log(player);
-player.GetOwnedGames('76561198017403191', true, true, []).done(
-  callback
-);
+router.get('/', function(req, res){
+  res.send('up and running');
+});
 
-module.export = null;
+router.get('/isAuthenticated', function(req, res){
+  if (player) res.send(' Jop');
+  else res.err(500);
+});
+
+module.exports = router;

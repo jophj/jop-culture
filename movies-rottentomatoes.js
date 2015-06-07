@@ -29,8 +29,6 @@ var ratingPageRequestOptions = function (auth_token)
   };
 };
 
-var app = express();
-
 router.use(function(err, req, res, next){
   console.error(err.stack);
   res.status(500).send('Something broke!');
@@ -41,7 +39,7 @@ router.get('/', function(req, res){
 });
 
 
-//TODO use auto_token as query param or drop this shit
+//TODO use auto_token as query param or drop this
 router.get('/isAuthenticated', function(req, res){   
   res.send(' Jop');
 });
