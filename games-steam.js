@@ -32,4 +32,34 @@ router.get('/isAuthenticated', function(req, res){
   else res.err(500);
 });
 
+
+var GamesFetcher = function () {
+  
+  return {
+    fetchGames: function (callback) {
+      player.GetOwnedGames(jopSteamID, true, true, []).done(
+        callback
+      );
+    }
+  };
+};
+
+var GamesParser = function () {
+  return{
+    parseAndOrder: function (steamGames) {
+      return [];
+    }
+  };
+};
+
+GamesFetcher().fetchGames(function (result) {
+  var gameItems = GamesParser().parseAndOrder(result);
+  console.log(gameItems);
+});
+
+
+
+
+
+
 module.exports = router;
